@@ -2,7 +2,7 @@
 # Spatial analyses of ural owl
 # *************************************************************
 # authors: Florian Kunz; Matthias Amon
-# last changed: 24.04.2025 
+# last changed: 30.04.2025 
 # script corresponds to publication: XXX [will be added as soon as accepted]
 
 # How to cite: [will be added as soon as accepted]
@@ -365,11 +365,10 @@ kuenm_mod(occ.joint = oj, M.var.dir = mvars, out.eval = cresdir, maxent.path = m
 ############################################
 
 # read in model files
-models <- list.files(path=paste0(path, "/final_models/final_models_files/"), pattern = "\\.asc$")
 models_vec <- c()
 
-for (i in 1:length(models)) {
-  model <- rast(paste0(path, "/final_models/final_models_files/", models[i]))
+for (i in 1:5) {
+  model <- rast(paste0(path, "modelling/3_step_final_models/final_model_", i, "/ural_owl_avg.asc"))
   
   # define projection
   crs(model) <- "EPSG:32633"
@@ -378,16 +377,75 @@ for (i in 1:length(models)) {
   models_vec <- append(models_vec, model, after=length(models_vec))
   
   # save as tif for visualization
-  filepath <- paste0(path, "final_models/final_models_files/model-", i, "_.tif")
+  filepath <- paste0(path, "modelling/3_step_final_models/final_model_avg/final_model_", i, ".tif")
   writeRaster(model, filepath, overwrite=TRUE)
 }
   
 
 # average
-model_fin <- (model1 + model2 + model3 + model4 + model5) / 5
+model_fin <- mean(models_vec)
 
 # write final model
-writeRaster(model_fin, paste0(path, "finalmodel/final_model.asc"), NAflag=-9999, overwrite=TRUE)
-writeRaster(model_fin, paste0(path, "finalmodel/final_model.tif"), overwrite=TRUE)
+writeRaster(model_fin, paste0(path, "modelling/3_step_final_models/final_model_avg/final_model.asc"), NAflag=-9999, overwrite=TRUE)
+writeRaster(model_fin, paste0(path, "modelling/3_step_final_models/final_model_avg/final_model.tif"), overwrite=TRUE)
+
+
+### Chapter Five - summarize results ### 
+############################################
+
+# initialize vectors
+{testAUC <- c()
+  PI_decid <- c()
+  PI_timber <- c()
+  PI_slope <- c()
+  PI_edge <- c()
+  PI_aspect <- c()
+  PC_decid <- c()
+  PC_timber <- c()
+  PC_slope <- c()
+  PC_edge <- c()
+  PC_aspect <- c()
+  binary <- c()}
+
+# read in maxent results
+for (i in 1:5) {
+  maxent <- read.csv(paste0("E:/Habichtskauz_final/3_step_final_models/final_model_", i, "/maxentResults.csv"))
+  
+  # append to vector
+  testAUC <- append(testAUC, maxent$Test.AUC[1:20], after=length(testAUC))
+  
+  PI_decid <- append(PI_decid, maxent$proportion_of_deciduous_forest.permutation.importance[1:20], after=length(PI_decid))
+  PI_timber <- append(PI_timber, maxent$proportion_of_timber_wood.permutation.importance[1:20], after=length(PI_timber))
+  PI_slope <- append(PI_slope, maxent$slope.permutation.importance[1:20], after=length(PI_slope))
+  PI_edge <- append(PI_edge, maxent$proportion_of_forest_edge.permutation.importance[1:20], after=length(PI_edge))
+  PI_aspect <- append(PI_aspect, maxent$cat_aspect.permutation.importance[1:20], after=length(PI_aspect))
+  
+  PC_decid <- append(PC_decid, maxent$proportion_of_deciduous_forest.contribution[1:20], after=length(PC_decid))
+  PC_timber <- append(PC_timber, maxent$proportion_of_timber_wood.contribution[1:20], after=length(PC_timber))
+  PC_slope <- append(PC_slope, maxent$slope.contribution[1:20], after=length(PC_slope))
+  PC_edge <- append(PC_edge, maxent$proportion_of_forest_edge.contribution[1:20], after=length(PC_edge))
+  PC_aspect <- append(PC_aspect, maxent$cat_aspect.contribution[1:20], after=length(PC_aspect))
+  
+  binary <- append(binary, maxent$Maximum.test.sensitivity.plus.specificity.Cloglog.threshold[1:20], after=length(binary))
+}
+
+# averages 
+mean(testAUC)
+
+mean(PI_decid)
+mean(PI_timber)
+mean(PI_slope)
+mean(PI_aspect)
+mean(PI_edge)
+
+mean(PC_decid)
+mean(PC_timber)
+mean(PC_slope)
+mean(PC_aspect)
+mean(PC_edge)
+
+mean(binary)
+
+## END ##
 
 ## END ##
