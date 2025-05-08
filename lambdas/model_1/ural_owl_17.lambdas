@@ -1,0 +1,26 @@
+(cat_aspect=1.0), 0.0, 0.0, 1.0
+(cat_aspect=5.0), 0.03739659043116803, 0.0, 1.0
+(cat_aspect=7.0), -0.17225041339806327, 0.0, 1.0
+(cat_aspect=8.0), -0.1529526322190903, 0.0, 1.0
+proportion_of_deciduous_forest, 2.1324518919605397, 0.0, 100.0
+proportion_of_forest_edge, 1.6084014580056873, 0.0, 685.0
+proportion_of_timber_wood, 0.6556133488758226, 0.0, 100.0
+slope, -1.1140607289042237, 0.0, 48.0
+proportion_of_deciduous_forest^2, -0.8098183506074873, 0.0, 10000.0
+proportion_of_timber_wood^2, -0.16721272044569938, 0.0, 10000.0
+`proportion_of_deciduous_forest, -0.02013072471273018, 0.0, 9.5
+`proportion_of_timber_wood, -0.7020738571650367, 0.0, 0.014999999664723873
+`slope, -0.4990313464815514, 0.0, 2.5
+`slope, -0.10866737090222309, 0.0, 0.5
+'proportion_of_forest_edge, -0.8315269845128476, 296.5, 685.0
+`proportion_of_deciduous_forest, -0.27068006862657873, 0.0, 8.5
+'proportion_of_timber_wood, -0.0921833858094911, 99.90500259399414, 100.0
+`slope, -0.1591755925368565, 0.0, 3.5
+'proportion_of_forest_edge, -0.36997191934106505, 295.5, 685.0
+'proportion_of_forest_edge, -0.030806192023931454, 233.5, 685.0
+'proportion_of_forest_edge, -0.7265751224366885, 232.5, 685.0
+'slope, 0.07790690937163615, 24.5, 48.0
+linearPredictorNormalizer, 2.153123084700448
+densityNormalizer, 1209.1333982457793
+numBackgroundPoints, 10255
+entropy, 8.719268818835584
